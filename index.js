@@ -65,8 +65,11 @@ load.resolve = function resolve(filename, source, options) {
 
   return filename;
 };
+
+
 load.read = function read(filename, options) {
-  return _.get(window.pugFs,  "['" + filename.replace(/\//g,"']['") + "']");
+  if (typeof(app) != 'undefined' && typeof(app.pugFs) == 'object') return _.get(app.pugFs,  "['" + filename.replace(/\//g,"']['") + "']");
+  else return fs.readFileSync(`${options.basedir}/${filename}`, 'utf8');
 };
 
 load.validateOptions = function validateOptions(options) {
